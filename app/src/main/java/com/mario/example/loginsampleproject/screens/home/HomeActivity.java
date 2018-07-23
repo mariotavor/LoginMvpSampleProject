@@ -41,8 +41,6 @@ public class HomeActivity extends BaseMvpActivity<HomeActivityMvpContract.Presen
         presenter.loginInfoReceived(email);
     }
 
-
-
     @Override
     public void showUserDetails(String user) {
         mHomeScreenText.setText(user);
@@ -56,9 +54,9 @@ public class HomeActivity extends BaseMvpActivity<HomeActivityMvpContract.Presen
     }
 
     @Override
-    public void injectAllDaggerDependencies(GlobalObjectComponentProvider globalObjectComponentProvider) {
+    public HomeActivityMvpContract.Presenter getPresenter(GlobalObjectComponentProvider globalObjectComponentProvider) {
         HomeComponent homeComponent = DaggerHomeComponent.builder().globalObjectComponentProvider(globalObjectComponentProvider).homeModule(new HomeModule(this)).build();
-        homeComponent.inject(this);
+        return homeComponent.getHomePresenter();
     }
 
     public static Intent getIntentToOpenMe(Context context, UserLoginInfo info) {

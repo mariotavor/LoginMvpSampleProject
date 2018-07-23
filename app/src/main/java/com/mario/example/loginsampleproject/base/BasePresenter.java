@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 public abstract class BasePresenter<M extends BaseMvpContract.Model, V extends BaseMvpContract.View> implements BaseMvpContract.Presenter
 {
     protected final WeakReference<V> viewWeakRef;
-    public M model;
+    protected M model;
 
 
     public BasePresenter(M model, V view) {

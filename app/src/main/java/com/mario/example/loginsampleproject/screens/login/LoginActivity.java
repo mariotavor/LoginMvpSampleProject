@@ -51,7 +51,6 @@ public class LoginActivity extends BaseMvpActivity<LoginActivityMvpContract.Pres
 
     }
 
-
     @OnTextChanged(value = R.id.email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     void afterEmailInput(Editable editable) {
         presenter.onEmailEntered(editable.toString());
@@ -104,10 +103,10 @@ public class LoginActivity extends BaseMvpActivity<LoginActivityMvpContract.Pres
 
 
     @Override
-    public void injectAllDaggerDependencies(GlobalObjectComponentProvider globalObjectComponentProvider) {
+    public  LoginActivityMvpContract.Presenter getPresenter(GlobalObjectComponentProvider globalObjectComponentProvider) {
         LoginComponent loginComponent = DaggerLoginComponent.builder().globalObjectComponentProvider(globalObjectComponentProvider).loginModule(new LoginModule(this)).build();
-        loginComponent.inject(this);
-
+        return loginComponent.getPresenter();
     }
+
 }
 

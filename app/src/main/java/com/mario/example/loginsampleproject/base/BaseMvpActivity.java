@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.mario.example.loginsampleproject.LoginApplication;
 import com.mario.example.loginsampleproject.globalDependencies.GlobalObjectComponentProvider;
 
-import javax.inject.Inject;
-
 /**
  * Created by mario on 19/07/18.
  * Activity that follows the {@link BaseMvpContract.View} contract
@@ -19,7 +17,7 @@ import javax.inject.Inject;
 @SuppressLint("Registered")
 public abstract class BaseMvpActivity<P extends BaseMvpContract.Presenter> extends AppCompatActivity implements BaseMvpContract.View {
 
-    @Inject
+
     public P presenter;
 
 
@@ -32,16 +30,21 @@ public abstract class BaseMvpActivity<P extends BaseMvpContract.Presenter> exten
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        injectAllDaggerDependencies(LoginApplication.getInstance().getmGlobalObjectComponent());
+        presenter=getPresenter(LoginApplication.getInstance().getmGlobalObjectComponent());
+        if(presenter==null)
+            throw  new IllegalArgumentException("presenter injection for class "+this.getClass().getName());
+
         presenter.viewCreated();
     }
 
     /**
-     * Created by mario on 21/07/18.
-     * all injection including to {@link BaseMvpActivity#presenter} should be done here
-     * We could have tried a solution using this base class but it may be overkill for this scenario
+     * the child is asked to create the dependencies and provide the presenter
+     * @param globalObjectComponentProvider global component that provides all global references
+     * @return P which extends {@link BaseMvpContract.Presenter} of the child
+     *
+     * @throws IllegalArgumentException if null is returned
      */
-    public abstract void injectAllDaggerDependencies(GlobalObjectComponentProvider globalObjectComponentProvider);
+    public abstract P getPresenter(GlobalObjectComponentProvider globalObjectComponentProvider) throws IllegalArgumentException;
 
 }
 

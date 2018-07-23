@@ -15,6 +15,7 @@ import dagger.Component;
 public interface HomeComponent {
 
     void inject(HomeActivity activity);
+    HomeActivityMvpContract.Presenter getHomePresenter();
 
 }
 

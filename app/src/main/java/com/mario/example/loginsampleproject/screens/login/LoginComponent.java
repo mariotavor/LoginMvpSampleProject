@@ -16,4 +16,5 @@ public interface LoginComponent {
 
     void inject(LoginActivity activity);
 
+    LoginActivityMvpContract.Presenter getPresenter();
 }
